@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { spotifyApi } from '@/utils/spotify';
 import Vibrant from 'node-vibrant';
+import AlbumDetails from '@/components/AlbumDetails';
 
 function hexToRgb(hex: string): [number, number, number] {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
@@ -123,38 +124,7 @@ export default async function Album({
   return (
     <div className="min-h-screen text-white" style={backgroundStyle}>
       <div className="flex-grow  flex flex-col">
-        {/* Album details section */}
-        <div className="bg-opacity-30 bg-black rounded-lg p-4 sm:p-5 md:p-6 mb-2">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col sm:flex-row items-center sm:items-end gap-4 sm:gap-6 mb-4 sm:mb-6">
-              <div className="w-40 sm:w-48 md:w-52 flex-shrink-0">
-                <Image
-                  src={data.images[0]?.url}
-                  alt={data.name}
-                  width={200}
-                  height={200}
-                  className="shadow-lg rounded-lg w-full h-auto"
-                />
-              </div>
-              <div className="text-center sm:text-left flex-grow">
-                <p className="text-xs sm:text-sm font-bold mb-1 sm:mb-2">
-                  Album
-                </p>
-                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 line-clamp-3">
-                  {data.name}
-                </h1>
-                <p className="text-xs sm:text-sm text-gray-300">
-                  <span className="font-bold">
-                    {data.artists[0].name}
-                  </span>{' '}
-                  • {new Date(data.release_date).getFullYear()} •{' '}
-                  {data.total_tracks} songs, {data.duration}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <AlbumDetails data={data} />
         {/* Small gap */}
         <div className="h-2"></div>
 
@@ -179,29 +149,29 @@ export default async function Album({
             {/* Sticky header */}
             <div className="sticky top-0 bg-black bg-opacity-90 z-20">
               <table className="min-w-full">
-                <thead>
+                <thead style={tHeaderStyle}>
                   <tr>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider w-[1%]"
+                      className="px-2 sm:px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider w-[10%]"
                     >
                       #
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+                      className="px-2 sm:px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
                     >
                       Title
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider hidden md:table-cell"
+                      className="px-2 sm:px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider w-[30%] hidden md:table-cell"
                     >
                       Album
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider"
+                      className="px-2 sm:px-4 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider w-[15%]"
                     >
                       Duration
                     </th>
@@ -212,7 +182,7 @@ export default async function Album({
 
             {/* Scrollable content */}
             <div className="overflow-y-auto flex-grow">
-              <div className="overflow-hidden  bg-opacity-50 bg-black">
+              <div className="overflow-hidden bg-opacity-50 bg-black">
                 <table className="min-w-full border-separate border-spacing-0">
                   <tbody>
                     {data.tracks.items.map(
@@ -221,32 +191,36 @@ export default async function Album({
                           key={track.id}
                           className="group hover:bg-white hover:bg-opacity-10"
                         >
-                          <td className="px-6 py-4 whitespace-nowrap text-md text-gray-400 w-[1%] group-hover:rounded-l-lg">
-                            <div className="flex items-center">
-                              <span className="group-hover:hidden">
+                          <td className="px-2 sm:px-4 py-4 whitespace-nowrap text-md text-gray-400 w-[10%] group-hover:rounded-l-lg">
+                            <div className="relative w-8 h-8">
+                              {/* Fixed-width container */}
+                              <span className="absolute inset-0 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-200">
                                 {index + 1}
                               </span>
-                              <button className="hidden group-hover:block text-pink-700 relative">
-                                <PlayIcon className="h-7 w-7 absolute top-1/2 left-2 transform -translate-x-1/2 -translate-y-1/2" />
+                              <button className="absolute inset-0 flex items-center justify-center text-pink-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                <PlayIcon className="h-7 w-7" />
                               </button>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+
+                          <td className="px-2 sm:px-4 py-4 whitespace-nowrap">
                             <div className="flex flex-col">
-                              <span className="text-sm font-medium text-white">
+                              <span className="text-sm font-medium text-white truncate">
                                 {track.name}
                               </span>
-                              <span className="text-sm text-gray-400">
+                              <span className="text-sm text-gray-400 truncate">
                                 {track.artists
                                   .map((artist: any) => artist.name)
                                   .join(', ')}
                               </span>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400 hidden md:table-cell">
-                            {data.name}
+                          <td className="px-2 sm:px-4 py-4 whitespace-nowrap text-sm text-gray-400 w-[30%] hidden md:table-cell">
+                            <span className="truncate block">
+                              {data.name}
+                            </span>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400 text-right group-hover:rounded-r-lg">
+                          <td className="px-2 sm:px-4 py-4 whitespace-nowrap text-sm text-gray-400 text-right w-[15%] group-hover:rounded-r-lg">
                             {formatDuration(track.duration_ms)}
                           </td>
                         </tr>

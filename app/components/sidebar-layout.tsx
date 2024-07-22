@@ -54,7 +54,6 @@ function MobileSidebar({
     </Headless.Dialog>
   );
 }
-
 export function SidebarLayout({
   navbar,
   sidebar,
@@ -66,9 +65,9 @@ export function SidebarLayout({
   let [showSidebar, setShowSidebar] = useState(false);
 
   return (
-    <div className="relative flex w-full bg-white isolate min-h-svh max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
+    <div className="relative flex w-full bg-white isolate min-h-svh max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950 max-w-[2260px] mx-auto">
       {/* Sidebar on desktop */}
-      <div className="fixed inset-y-0 left-0 w-64 max-lg:hidden">
+      <div className="fixed inset-y-0 left-0 w-[240px] xl:w-[300px] 2xl:w-[340px] max-lg:hidden">
         {sidebar}
       </div>
 
@@ -96,10 +95,9 @@ export function SidebarLayout({
       </header>
 
       {/* Content */}
-      <main className="flex flex-col flex-1 pb-2 lg:min-w-0 lg:pl-64 lg:pr-2 lg:pt-2">
-        {/* <div className="p-6 flex flex-col h-[calc(100vh-theme('spacing.4'))] lg:rounded-lg lg:bg-white lg:p-10 lg:shadow-sm lg:ring-1 lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10 overflow-scroll"> */}
-        <div className=" flex flex-col h-[calc(100vh-theme('spacing.4'))] lg:rounded-lg lg:bg-white  lg:shadow-sm lg:ring-1 lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10 overflow-scroll">
-          <div className="max-w-6xl mx-auto w-full flex flex-col flex-grow ">
+      <main className="flex flex-col flex-1 pb-2 lg:min-w-0 lg:pl-[240px] xl:pl-[300px] 2xl:pl-[340px] lg:pr-2 lg:pt-2">
+        <div className="flex flex-col h-[calc(100vh-theme('spacing.4'))] lg:rounded-lg lg:bg-white lg:shadow-sm lg:ring-1 lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10 overflow-scroll">
+          <div className="mx-auto w-full max-w-[1600px] 2xl:max-w-[1920px] flex flex-col flex-grow ">
             {children}
           </div>
         </div>
