@@ -9,18 +9,26 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^5.2.3",
+    "@clerk/themes": "^2.1.10",
+    "@headlessui/react": "^2.1.2",
+    "@heroicons/react": "^2.1.4",
+    "@tabler/icons-react": "^3.9.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.2.13",
+    "next": "14.2.4",
+    "node-vibrant": "^3.2.1-alpha.1",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.4"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.4",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.4"
+    "typescript": "^5"
   }
 }
