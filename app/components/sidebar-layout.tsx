@@ -97,7 +97,8 @@ export function SidebarLayout({
 
       {/* Content */}
       <main className="flex flex-col flex-1 pb-2 lg:min-w-0 lg:pl-64 lg:pr-2 lg:pt-2">
-        <div className="p-6 flex flex-col h-[calc(100vh-theme('spacing.4'))] lg:rounded-lg lg:bg-white lg:p-10 lg:shadow-sm lg:ring-1 lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10 overflow-scroll">
+        {/* <div className="p-6 flex flex-col h-[calc(100vh-theme('spacing.4'))] lg:rounded-lg lg:bg-white lg:p-10 lg:shadow-sm lg:ring-1 lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10 overflow-scroll"> */}
+        <div className=" flex flex-col h-[calc(100vh-theme('spacing.4'))] lg:rounded-lg lg:bg-white  lg:shadow-sm lg:ring-1 lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10 overflow-scroll">
           <div className="max-w-6xl mx-auto w-full flex flex-col flex-grow ">
             {children}
           </div>

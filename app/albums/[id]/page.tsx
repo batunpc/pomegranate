@@ -69,6 +69,28 @@ function PlayIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   );
 }
 
+function ShuffleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+  return (
+    <svg
+      className="w-6 h-6 text-gray-800 "
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M13.484 9.166 15 7h5m0 0-3-3m3 3-3 3M4 17h4l1.577-2.253M4 7h4l7 10h5m0 0-3 3m3-3-3-3"
+      />
+    </svg>
+  );
+}
+
 function TrackEntry({ track, index }: { track: any; index: number }) {
   return (
     <div className="flex items-center py-3 text-gray-300 hover:bg-opacity-10 hover:bg-white">
@@ -83,10 +105,12 @@ function TrackEntry({ track, index }: { track: any; index: number }) {
             .join(', ')}
         </p>
       </div>
-      <span className="text-gray-400 mr-4">{track.duration}</span>
-      <button className="p-2 text-gray-400 hover:text-white transition-colors opacity-0 group-hover:opacity-100">
-        <PlayIcon className="h-5 w-5" />
-      </button>
+      <span className="w-16 text-right text-gray-400">
+        {track.plays}
+      </span>
+      <span className="w-16 text-right text-gray-400">
+        {track.duration}
+      </span>
     </div>
   );
 }
@@ -118,11 +142,12 @@ export default async function Album({
 
   return (
     <div
-      className="flex flex-col text-white overflow-hidden h-[calc(92vh-theme('spacing.8'))]"
+      className="flex flex-col text-white  h-[calc(100vh-theme('spacing.8'))]"
       style={backgroundStyle}
     >
-      <div className="flex-grow overflow-hidden flex flex-col">
-        <div className="p-4 sm:p-6 md:p-8">
+      <div className="flex-grow  flex flex-col">
+        {/* Album details section */}
+        <div className="bg-opacity-30 bg-black rounded-lg p-4 sm:p-5 md:p-6 mb-2">
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col sm:flex-row items-center sm:items-end gap-4 sm:gap-6 mb-4 sm:mb-6">
               <div className="w-40 sm:w-48 md:w-52 flex-shrink-0">
@@ -150,28 +175,82 @@ export default async function Album({
                 </p>
               </div>
             </div>
-            <div className="flex items-center justify-center sm:justify-start gap-4 sm:gap-6 mb-4 sm:mb-6">
-              <button className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center hover:scale-105 transition-transform">
-                <PlayIcon className="h-6 w-6 text-black" />
-              </button>
-              {/* Add other action buttons here */}
-            </div>
           </div>
         </div>
 
-        <div className="flex-grow overflow-y-auto px-8">
-          <div className="">
-            {currentTracks.map((track: any, index: number) => (
-              <TrackEntry
-                key={track.id}
-                track={track}
-                index={startIndex + index}
-              />
-            ))}
+        {/* Small gap */}
+        <div className="h-2"></div>
+
+        {/* Tracks section */}
+        <div className="flex-grow overflow-hidden flex flex-col bg-opacity-50 bg-black rounded-t-lg">
+          {/* Fixed buttons container */}
+          <div className="px-8 py-4">
+            <div className="flex items-center gap-4">
+              <button className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center hover:scale-105 transition-transform">
+                <PlayIcon className="h-6 w-6 text-black" />
+              </button>
+              <button className="w-10 h-10 text-white opacity-70 hover:opacity-100 transition-opacity">
+                <ShuffleIcon className="h-6 w-6" />
+              </button>
+              {/* Add more buttons here if needed */}
+            </div>
+          </div>
+
+          {/* Tracks table */}
+          <div className="flex-grow overflow-y-auto">
+            <table className="min-w-full">
+              <thead>
+                <tr className="border-b border-gray-700 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-3">
+                    #
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Title
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Album
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-right">
+                    Duration
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentTracks.map((track: any, index: number) => (
+                  <tr
+                    key={track.id}
+                    className="hover:bg-white hover:bg-opacity-10"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                      {startIndex + index + 1}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium text-white">
+                          {track.name}
+                        </span>
+                        <span className="text-sm text-gray-400">
+                          {track.artists
+                            .map((artist: any) => artist.name)
+                            .join(', ')}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                      {data.name}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400 text-right">
+                      {track.duration_ms}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
 
+      {/* Pagination section */}
       <div className="bg-neutral-900 p-4 border-t border-neutral-700">
         <div className="max-w-4xl mx-auto flex justify-between items-center">
           {page > 1 ? (

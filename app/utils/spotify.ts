@@ -61,7 +61,12 @@ const spotifyApi = async (
   );
 
   if (!response.ok) {
-    throw new Error('Spotify API request failed');
+    // throw new Error('Spotify API request failed');
+    // give a more detailed error message
+    const errorData = await response.json();
+    throw new Error(
+      `Spotify API request failed: ${errorData.error.message}`,
+    );
   }
 
   return response.json();
