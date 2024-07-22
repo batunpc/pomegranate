@@ -72,7 +72,7 @@ function PlayIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 function ShuffleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg
-      className="w-6 h-6 text-gray-800 "
+      className="w-7 h-7 text-gray-200 "
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -88,30 +88,6 @@ function ShuffleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
         d="M13.484 9.166 15 7h5m0 0-3-3m3 3-3 3M4 17h4l1.577-2.253M4 7h4l7 10h5m0 0-3 3m3-3-3-3"
       />
     </svg>
-  );
-}
-
-function TrackEntry({ track, index }: { track: any; index: number }) {
-  return (
-    <div className="flex items-center py-3 text-gray-300 hover:bg-opacity-10 hover:bg-white">
-      <span className="w-8 text-right mr-4 text-gray-400">
-        {index + 1}
-      </span>
-      <div className="flex-grow">
-        <h3 className="text-white">{track.name}</h3>
-        <p className="text-sm text-gray-400">
-          {track.artists
-            .map((artist: { name: string }) => artist.name)
-            .join(', ')}
-        </p>
-      </div>
-      <span className="w-16 text-right text-gray-400">
-        {track.plays}
-      </span>
-      <span className="w-16 text-right text-gray-400">
-        {track.duration}
-      </span>
-    </div>
   );
 }
 
@@ -140,11 +116,12 @@ export default async function Album({
     background: `linear-gradient(to bottom, ${dominantColor}, #121212)`,
   };
 
+  const tHeaderStyle = {
+    backgroundColor: adjustColor(dominantColor),
+  };
+
   return (
-    <div
-      className="flex flex-col text-white  h-[calc(100vh-theme('spacing.8'))]"
-      style={backgroundStyle}
-    >
+    <div className="min-h-screen text-white" style={backgroundStyle}>
       <div className="flex-grow  flex flex-col">
         {/* Album details section */}
         <div className="bg-opacity-30 bg-black rounded-lg p-4 sm:p-5 md:p-6 mb-2">
@@ -182,11 +159,11 @@ export default async function Album({
         <div className="h-2"></div>
 
         {/* Tracks section */}
-        <div className="flex-grow overflow-hidden flex flex-col bg-opacity-50 bg-black rounded-t-lg">
+        <div className=" flex flex-col bg-opacity-50 bg-black rounded-lg px-1 sm:px-2 md:px-3 py-2 sm:py-3 md:py-4">
           {/* Fixed buttons container */}
           <div className="px-8 py-4">
             <div className="flex items-center gap-4">
-              <button className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center hover:scale-105 transition-transform">
+              <button className="w-12 h-12 bg-pink-700 rounded-full flex items-center justify-center hover:scale-105 transition-transform">
                 <PlayIcon className="h-6 w-6 text-black" />
               </button>
               <button className="w-10 h-10 text-white opacity-70 hover:opacity-100 transition-opacity">
@@ -197,61 +174,95 @@ export default async function Album({
           </div>
 
           {/* Tracks table */}
-          <div className="flex-grow overflow-y-auto">
-            <table className="min-w-full">
-              <thead>
-                <tr className="border-b border-gray-700 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                  <th scope="col" className="px-6 py-3">
-                    #
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Title
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Album
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-right">
-                    Duration
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentTracks.map((track: any, index: number) => (
-                  <tr
-                    key={track.id}
-                    className="hover:bg-white hover:bg-opacity-10"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                      {startIndex + index + 1}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex flex-col">
-                        <span className="text-sm font-medium text-white">
-                          {track.name}
-                        </span>
-                        <span className="text-sm text-gray-400">
-                          {track.artists
-                            .map((artist: any) => artist.name)
-                            .join(', ')}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                      {data.name}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400 text-right">
-                      {track.duration_ms}
-                    </td>
+          {/* <div className="flex-grow overflow-y-auto"> */}
+          <div className="flex flex-col h-full">
+            {/* Sticky header */}
+            <div className="sticky top-0 bg-black bg-opacity-90 z-20">
+              <table className="min-w-full">
+                <thead>
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider w-[1%]"
+                    >
+                      #
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+                    >
+                      Title
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider hidden md:table-cell"
+                    >
+                      Album
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider"
+                    >
+                      Duration
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+              </table>
+            </div>
+
+            {/* Scrollable content */}
+            <div className="overflow-y-auto flex-grow">
+              <div className="overflow-hidden  bg-opacity-50 bg-black">
+                <table className="min-w-full border-separate border-spacing-0">
+                  <tbody>
+                    {data.tracks.items.map(
+                      (track: any, index: number) => (
+                        <tr
+                          key={track.id}
+                          className="group hover:bg-white hover:bg-opacity-10"
+                        >
+                          <td className="px-6 py-4 whitespace-nowrap text-md text-gray-400 w-[1%] group-hover:rounded-l-lg">
+                            <div className="flex items-center">
+                              <span className="group-hover:hidden">
+                                {index + 1}
+                              </span>
+                              <button className="hidden group-hover:block text-pink-700 relative">
+                                <PlayIcon className="h-7 w-7 absolute top-1/2 left-2 transform -translate-x-1/2 -translate-y-1/2" />
+                              </button>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex flex-col">
+                              <span className="text-sm font-medium text-white">
+                                {track.name}
+                              </span>
+                              <span className="text-sm text-gray-400">
+                                {track.artists
+                                  .map((artist: any) => artist.name)
+                                  .join(', ')}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400 hidden md:table-cell">
+                            {data.name}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400 text-right group-hover:rounded-r-lg">
+                            {formatDuration(track.duration_ms)}
+                          </td>
+                        </tr>
+                      ),
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
+          {/* </div> */}
         </div>
       </div>
 
       {/* Pagination section */}
-      <div className="bg-neutral-900 p-4 border-t border-neutral-700">
+      {/* <div className="bg-neutral-900 p-4 border-t border-neutral-700">
         <div className="max-w-4xl mx-auto flex justify-between items-center">
           {page > 1 ? (
             <Link
@@ -277,9 +288,15 @@ export default async function Album({
             <span className="text-gray-500">Next</span>
           )}
         </div>
-      </div>
+      </div> */}
     </div>
   );
+}
+
+function formatDuration(ms: number): string {
+  const minutes = Math.floor(ms / 60000);
+  const seconds = ((ms % 60000) / 1000).toFixed(0);
+  return `${minutes}:${Number(seconds) < 10 ? '0' : ''}${seconds}`;
 }
 
 export const revalidate = 3600; // Revalidate every hour
