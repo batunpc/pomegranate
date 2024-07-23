@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { spotifyApi } from '@/utils/spotify';
 import Vibrant from 'node-vibrant';
 import AlbumDetails from '@/components/AlbumDetails';
+import TrackPlayer from '@/components/TrackPlayer';
+import { BottomPlayer } from '@/components/BottomPlayer';
 
 function hexToRgb(hex: string): [number, number, number] {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
@@ -197,9 +199,13 @@ export default async function Album({
                               <span className="absolute inset-0 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-200">
                                 {index + 1}
                               </span>
-                              <button className="absolute inset-0 flex items-center justify-center text-pink-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                <PlayIcon className="h-7 w-7" />
-                              </button>
+                              <div className="absolute inset-0 flex items-center justify-center text-pink-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                {/* <PlayIcon className="h-7 w-7" /> */}
+                                <TrackPlayer
+                                  track={track}
+                                  index={index}
+                                />
+                              </div>
                             </div>
                           </td>
 
@@ -228,6 +234,7 @@ export default async function Album({
                     )}
                   </tbody>
                 </table>
+                <BottomPlayer />
               </div>
             </div>
           </div>

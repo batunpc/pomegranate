@@ -4,6 +4,8 @@ import './globals.css';
 import { ApplicationLayout } from './application-layout';
 import { getEvents } from './data';
 import { dark, neobrutalism } from '@clerk/themes';
+import { AudioProvider } from '@/components/AudioProvider';
+import { BottomPlayer } from '@/components/BottomPlayer';
 
 import {
   ClerkProvider,
@@ -41,11 +43,12 @@ export default async function RootLayout({
           />
         </head>
         <body>
-          <>
+          <AudioProvider>
             <ApplicationLayout events={events}>
               {children}
+              <BottomPlayer />
             </ApplicationLayout>
-          </>
+          </AudioProvider>
         </body>
       </html>
     </ClerkProvider>
