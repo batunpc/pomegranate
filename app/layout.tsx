@@ -4,6 +4,8 @@ import './globals.css';
 import { ApplicationLayout } from './application-layout';
 import { getEvents } from './data';
 import { dark, neobrutalism } from '@clerk/themes';
+import { AudioProvider } from '@/components/AudioProvider';
+import { AudioPlayer } from '@/components/player/AudioPlayer';
 
 import {
   ClerkProvider,
@@ -40,12 +42,15 @@ export default async function RootLayout({
             href="https://rsms.me/inter/inter.css"
           />
         </head>
-        <body>
-          <>
-            <ApplicationLayout events={events}>
-              {children}
-            </ApplicationLayout>
-          </>
+        <body className="flex flex-col min-h-screen">
+          <AudioProvider>
+            <div className="flex-grow">
+              <ApplicationLayout events={events}>
+                {children}
+              </ApplicationLayout>
+            </div>
+            <AudioPlayer />
+          </AudioProvider>
         </body>
       </html>
     </ClerkProvider>

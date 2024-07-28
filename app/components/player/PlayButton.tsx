@@ -1,9 +1,9 @@
-import { type PlayerAPI } from '@/components/AudioProvider'
-import { PauseIcon } from '@/components/PauseIcon'
-import { PlayIcon } from '@/components/PlayIcon'
+import { type PlayerAPI } from '@/components/AudioProvider';
+import { PauseIcon } from '@/components/icons/PauseIcon';
+import { PlayIcon } from '@/components/icons/PlayIcon';
 
 export function PlayButton({ player }: { player: PlayerAPI }) {
-  let Icon = player.playing ? PauseIcon : PlayIcon
+  let Icon = player.playing ? PauseIcon : PlayIcon;
 
   return (
     <button
@@ -15,5 +15,5 @@ export function PlayButton({ player }: { player: PlayerAPI }) {
       <div className="absolute -inset-3 md:hidden" />
       <Icon className="h-5 w-5 fill-white group-active:fill-white/80 md:h-7 md:w-7" />
     </button>
-  )
+  );
 }

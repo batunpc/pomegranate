@@ -3,6 +3,10 @@ import Link from 'next/link';
 import { spotifyApi } from '@/utils/spotify';
 import Vibrant from 'node-vibrant';
 import AlbumDetails from '@/components/AlbumDetails';
+import { TrackPlayButton } from '@/components/TrackPlayButton';
+import { PlayIcon } from '@/components/icons/PlayIcon';
+import { PauseIcon } from '@/components/icons/PauseIcon';
+import { AudioPlayer } from '@/components/player/AudioPlayer';
 
 function hexToRgb(hex: string): [number, number, number] {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
@@ -57,18 +61,18 @@ async function getImageColor(imageUrl: string) {
   }
 }
 
-function PlayIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      {...props}
-    >
-      <path d="M8 5v14l11-7z" />
-    </svg>
-  );
-}
+// function PlayIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+//   return (
+//     <svg
+//       aria-hidden="true"
+//       viewBox="0 0 24 24"
+//       fill="currentColor"
+//       {...props}
+//     >
+//       <path d="M8 5v14l11-7z" />
+//     </svg>
+//   );
+// }
 
 function ShuffleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -187,13 +191,18 @@ export default async function Album({
                   <tbody>
                     {data.tracks.items.map(
                       (track: any, index: number) => (
-                        <tr
-                          key={track.id}
-                          className="group hover:bg-white hover:bg-opacity-10"
-                        >
-                          <td className="px-2 sm:px-4 py-4 whitespace-nowrap text-md text-gray-400 w-[10%] group-hover:rounded-l-lg">
+                        console.log(
+                          'Track being passed to TrackPlayButton:',
+                          JSON.stringify(track, null, 2),
+                        ),
+                        (
+                          <tr
+                            key={track.id}
+                            className="group hover:bg-white hover:bg-opacity-10"
+                          >
+                            {/* <td className="px-2 sm:px-4 py-4 whitespace-nowrap text-md text-gray-400 w-[10%] group-hover:rounded-l-lg">
                             <div className="relative w-8 h-8">
-                              {/* Fixed-width container */}
+                              
                               <span className="absolute inset-0 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-200">
                                 {index + 1}
                               </span>
@@ -201,29 +210,50 @@ export default async function Album({
                                 <PlayIcon className="h-7 w-7" />
                               </button>
                             </div>
-                          </td>
+                          </td> */}
+                            <td className="px-2 sm:px-4 py-4 whitespace-nowrap text-md text-gray-400 w-[10%] group-hover:rounded-l-lg">
+                              <TrackPlayButton
+                                track={{
+                                  id: track.id,
+                                  name: track.name,
+                                  preview_url: track.preview_url,
+                                  artists: track.artists,
+                                  duration_ms: track.duration_ms,
+                                  external_urls: track.external_urls,
+                                  uri: track.uri,
+                                  type: track.type,
+                                }}
+                                playing={
+                                  <PauseIcon className="w-4 h-4" />
+                                }
+                                paused={
+                                  <PlayIcon className="w-4 h-4" />
+                                }
+                              />
+                            </td>
 
-                          <td className="px-2 sm:px-4 py-4 whitespace-nowrap">
-                            <div className="flex flex-col">
-                              <span className="text-sm font-medium text-white truncate">
-                                {track.name}
+                            <td className="px-2 sm:px-4 py-4 whitespace-nowrap">
+                              <div className="flex flex-col">
+                                <span className="text-sm font-medium text-white truncate">
+                                  {track.name}
+                                </span>
+                                <span className="text-sm text-gray-400 truncate">
+                                  {track.artists
+                                    .map((artist: any) => artist.name)
+                                    .join(', ')}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="px-2 sm:px-4 py-4 whitespace-nowrap text-sm text-gray-400 w-[30%] hidden md:table-cell">
+                              <span className="truncate block">
+                                {data.name}
                               </span>
-                              <span className="text-sm text-gray-400 truncate">
-                                {track.artists
-                                  .map((artist: any) => artist.name)
-                                  .join(', ')}
-                              </span>
-                            </div>
-                          </td>
-                          <td className="px-2 sm:px-4 py-4 whitespace-nowrap text-sm text-gray-400 w-[30%] hidden md:table-cell">
-                            <span className="truncate block">
-                              {data.name}
-                            </span>
-                          </td>
-                          <td className="px-2 sm:px-4 py-4 whitespace-nowrap text-sm text-gray-400 text-right w-[15%] group-hover:rounded-r-lg">
-                            {formatDuration(track.duration_ms)}
-                          </td>
-                        </tr>
+                            </td>
+                            <td className="px-2 sm:px-4 py-4 whitespace-nowrap text-sm text-gray-400 text-right w-[15%] group-hover:rounded-r-lg">
+                              {formatDuration(track.duration_ms)}
+                            </td>
+                          </tr>
+                        )
                       ),
                     )}
                   </tbody>
