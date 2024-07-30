@@ -1,10 +1,10 @@
-import { type PlayerAPI } from '@/components/AudioProvider'
+import { type PlayerAPI } from '@/components/AudioProvider';
 
 function MuteIcon({
   muted,
   ...props
 }: React.ComponentPropsWithoutRef<'svg'> & {
-  muted: boolean
+  muted: boolean;
 }) {
   return (
     <svg
@@ -24,7 +24,10 @@ function MuteIcon({
       ) : (
         <>
           <path d="M12 6L8 10H6C5.44772 10 5 10.4477 5 11V13C5 13.5523 5.44772 14 6 14H8L12 18V6Z" />
-          <path d="M17 7C17 7 19 9 19 12C19 15 17 17 17 17" fill="none" />
+          <path
+            d="M17 7C17 7 19 9 19 12C19 15 17 17 17 17"
+            fill="none"
+          />
           <path
             d="M15.5 10.5C15.5 10.5 16 10.9998 16 11.9999C16 13 15.5 13.5 15.5 13.5"
             fill="none"
@@ -32,14 +35,14 @@ function MuteIcon({
         </>
       )}
     </svg>
-  )
+  );
 }
 
 export function MuteButton({ player }: { player: PlayerAPI }) {
   return (
     <button
       type="button"
-      className="group relative rounded-md hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 md:order-none"
+      className="group relative rounded-md hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 md:order-none text-gray-400 hover:text-white transition-colors"
       onClick={() => player.toggleMute()}
       aria-label={player.muted ? 'Unmute' : 'Mute'}
     >
@@ -49,5 +52,5 @@ export function MuteButton({ player }: { player: PlayerAPI }) {
         className="h-6 w-6 fill-slate-500 stroke-slate-500 group-hover:fill-slate-700 group-hover:stroke-slate-700"
       />
     </button>
-  )
+  );
 }

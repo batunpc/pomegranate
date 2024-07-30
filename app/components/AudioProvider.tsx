@@ -205,14 +205,13 @@ function AudioProvider({ children }: { children: React.ReactNode }) {
 }
 
 function useAudioPlayer() {
-  let player = useContext(AudioPlayerContext);
-
-  if (!player) {
+  const context = useContext(AudioPlayerContext);
+  if (!context) {
     throw new Error(
       'useAudioPlayer must be used within an AudioProvider',
     );
   }
-
-  return player;
+  return context;
 }
+
 export { AudioProvider, useAudioPlayer };

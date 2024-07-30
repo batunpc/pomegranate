@@ -13,7 +13,7 @@ export function PlayButton({ player }: { player: PlayerAPI }) {
       aria-label={player.playing ? 'Pause' : 'Play'}
     >
       <div className="absolute -inset-3 md:hidden" />
-      <Icon className="h-5 w-5 fill-white group-active:fill-white/80 md:h-7 md:w-7" />
+      <Icon className="h-5 w-5  group-active:fill-white/80 md:h-7 md:w-7" />
     </button>
   );
 }

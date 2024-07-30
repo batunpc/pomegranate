@@ -1,4 +1,4 @@
-import { type PlayerAPI } from '@/components/AudioProvider'
+import { type PlayerAPI } from '@/components/AudioProvider';
 
 function RewindIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -15,25 +15,25 @@ function RewindIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
       <path d="M5 15V19" />
       <path d="M8 18V16C8 15.4477 8.44772 15 9 15H10C10.5523 15 11 15.4477 11 16V18C11 18.5523 10.5523 19 10 19H9C8.44772 19 8 18.5523 8 18Z" />
     </svg>
-  )
+  );
 }
 
 export function RewindButton({
   player,
   amount = 10,
 }: {
-  player: PlayerAPI
-  amount?: number
+  player: PlayerAPI;
+  amount?: number;
 }) {
   return (
     <button
       type="button"
-      className="group relative rounded-full focus:outline-none"
+      className="group relative rounded-full focus:outline-none text-gray-400 hover:text-white transition-colors"
       onClick={() => player.seekBy(-amount)}
       aria-label={`Rewind ${amount} seconds`}
     >
       <div className="absolute -inset-4 -right-2 md:hidden" />
       <RewindIcon className="h-6 w-6 stroke-slate-500 group-hover:stroke-slate-700" />
     </button>
-  )
+  );
 }
